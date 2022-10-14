@@ -389,13 +389,15 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . "/templates/invoice.latte");
+		$translator = new Translator();
+		$translator->setLang('cs');
+		$template->setTranslator($translator);
+
 		$template->invoice = $invoice;
 
 		$template->addFilter('currency', function (float $number) use ($invoice) {
 			return $invoice->currency->format($number);
 		});
-
-		$template->setTranslator(new Translator());
 
 		$pdf = new PdfResponse($template);
 		$pdf->pageOrientation = PDFResponse::ORIENTATION_PORTRAIT;
