@@ -50,7 +50,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 		$invoice->dateIssue = $datetime->modify('+14 days');
 		$invoice->taxDate = $datetime;
 		$invoice->vat = true;
-		//$invoice->text = 'faktura ghh';
+		$invoice->text = 'testovací faktura';
 		$invoice->currency = new CZK();
 
 		$invoice->receiver = $receiver;
@@ -66,43 +66,13 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 			[
 				'name' => 'test',
 				'price' => 500,
-				'vat' => 21,
+				'vat' => 10,
 				'amount' => 10,
 			],
 			[
 				'name' => 'test',
 				'price' => 500,
-				'vat' => 21,
-				'amount' => 10,
-			],
-			[
-				'name' => 'test',
-				'price' => 500,
-				'vat' => 21,
-				'amount' => 10,
-			],
-			[
-				'name' => 'test',
-				'price' => 500,
-				'vat' => 21,
-				'amount' => 10,
-			],
-			[
-				'name' => 'test',
-				'price' => 500,
-				'vat' => 21,
-				'amount' => 10,
-			],
-			[
-				'name' => 'test',
-				'price' => 500,
-				'vat' => 21,
-				'amount' => 10,
-			],
-			[
-				'name' => 'test',
-				'price' => 500,
-				'vat' => 21,
+				'vat' => 10,
 				'amount' => 10,
 			],
 			[
@@ -402,9 +372,10 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 		$pdf = new PdfResponse($template);
 		$pdf->pageOrientation = PDFResponse::ORIENTATION_PORTRAIT;
 		$pdf->pageFormat = 'A4';
+		$pdf->getMPDF()->SetFooter('{PAGENO} / {nb}'); // footer
+
 		$pdf->setSaveMode(PdfResponse::INLINE);
 		$this->sendResponse($pdf);
-
 	}
 
 }

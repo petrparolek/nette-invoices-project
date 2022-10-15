@@ -1,268 +1,260 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs">
+{* midified templaste from https://github.com/javor53/template_eshop_nette/blob/40d52e9/app/EshopModule/templates/invoice.latte *}
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="Content-Language" content="cs"/>
-    <meta name="title" content=""/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
-    <meta name="robots" content=""/>
-    <meta name="author" content=""/>
-    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta charset="utf-8">
     <title></title>
-    <style type="text/css">
-        html, body {
-            font: 12px Arial;
-        }
-
-        table {
-            border-spacing: 1px;
-            border-collapse: separate;
-        }
-
-        th {
-            text-align: left;
-        }
-
-        .border {
-            border: 1px solid black;
-        }
-
-        .right {
-            text-align: right;
-        }
-
-        .space {
-            height: 10px;
-            display: block;
-        }
-
-        .title {
-            font-size: 1.3em;
-            font-weight: bold;
-        }
-
-        .subscriber {
-            font-size: 1.4em;
-            font-weight: bold;
-        }
-
-        .whiteSpace {
-        {if $invoice->title} height: 696px;
-        {else} height: 170mm;
-        {/if} vertical-align: top;
-        }
-
-        .text td {
-            padding: 5px 5px 10px;
-        }
-
-        .items tbody td, .items thead th {
-            padding: 5px;
-        }
-
-        .items .name {
-            width: 290px;
-        }
-
-        .items .price {
-            width: 90px;
-        }
-
-        .items .amount {
-            width: 30px;
-        }
-
-        .items .vat {
-            width: 30px;
-        }
-
-        .items .priceWithoutVat {
-            width: 90px;
-        }
-
-        .items .priceTotal {
-            width: 90px;
-        }
-    </style>
 </head>
 <body>
-<table class="border" style="width: 650px; height: 842px">
-    <tr>
-        <td class="border" rowspan="2" style="width: 300px;">
-            <table style="width: 100%">
-                <tr>
-                    <td><strong>{_'nattreid.printInvoice.supplier'}:</strong></td>
-                    <td>{_'nattreid.printInvoice.ico'}: <strong>{$invoice->supplier->ico}</strong></td>
-                    <td n:if="$invoice->supplier->dic">{_'nattreid.printInvoice.dic'}:
-                        <strong>{$invoice->supplier->dic}</strong></td>
-                </tr>
-                <tr>
-                    <td class="space"></td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        {$invoice->supplier->name}<br/>
-                        {$invoice->supplier->street}<br/>
-                        {$invoice->supplier->zip} {$invoice->supplier->city}<br/>
-                        {$invoice->supplier->country}
-                    </td>
-                </tr>
+<style>
+    body {
+        font-size: 9pt;
+    }
+    .container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .container .block {
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        float: left;
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .container .last {
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+    }
+
+    .container .block .half-block {
+        width: 43%;
+        float: left;
+        padding: 20px;
+        padding-top: 0;
+    }
+
+    .container .block .full-block {
+        width: 95%;
+        padding: 20px;
+        padding-top: 0;
+        position: relative;
+    }
+
+    h4 {
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        width: 100%;
+    }
+
+    th, td {
+        text-align: left;
+        padding-right: 18px;
+    }
+
+    .border {
+        border: 1px solid black;
+        padding: 4px;
+    }
+
+    .price-block {
+        float: right;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .signature {
+        border-top: 1px solid black;
+        text-align: center;
+        width: 70%;
+        margin: 150px auto 0 auto;
+    }
+
+    .invoice-number {
+        text-align: center;
+        font-size: 1.2em;
+        border: 1px solid black;
+        border-bottom: none;
+        padding: 10px;
+        width: 30%;
+        float: right;
+    }
+</style>
+
+<div class="container">
+    <div class="invoice-number">
+        <span>{_'nattreid.printInvoice.invoice'} {$invoice->id}</span>
+    </div>
+    <div class="invoice-number" n:if="$invoice->title">
+        <span>{$invoice->title}</span>
+    </div>
+
+    <div class="block">
+        <div class="half-block left">
+            <table>
+                <tr><th><h4>{_'nattreid.printInvoice.supplier'}:</h4></th></tr>
+                <tr><td>{$invoice->supplier->name}</td></tr>
+                <tr><td>{$invoice->supplier->street}</td></tr>
+                <tr><td>{$invoice->supplier->zip} {$invoice->supplier->city}</td></tr>
+                <tr><td>{_'nattreid.printInvoice.ico'}: {$invoice->supplier->ico}</td></tr>
+                <tr n:if="$invoice->supplier->dic"><td>{_'nattreid.printInvoice.dic'}: {$invoice->supplier->dic}</td></tr>
             </table>
-        </td>
-        <td class="border">
-            <table style="width: 100%">
-                <tr n:if="$invoice->title">
-                    <td colspan="2" class="title">
-                        {$invoice->title}
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="title" {if $invoice->title}style="font-size: 1.1em"{/if}>
-                        {_'nattreid.printInvoice.invoice'}: {$invoice->id}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 60%">{_'nattreid.printInvoice.variable'}:</td>
-                    <td><strong>{$invoice->variable}</strong></td>
-                </tr>
-                <tr n:if="$invoice->constant">
-                    <td>{_'nattreid.printInvoice.constant'}:</td>
-                    <td>{$invoice->constant}</td>
-                </tr>
+        </div>
+        <div class="half-block right">
+            <table>
+                <tr><th><h4>{_'nattreid.printInvoice.receiver'}:</h4></th></tr>
+                <tr><td>{$invoice->receiver->name}</td></tr>
+                <tr><td>{$invoice->receiver->street}</td></tr>
+                <tr><td>{$invoice->receiver->zip} {$invoice->receiver->city}</td></tr>
+                <tr><td>{_'nattreid.printInvoice.ico'}: {$invoice->receiver->ico}</td></tr>
+                <tr n:if="$invoice->receiver->dic"><td>{_'nattreid.printInvoice.dic'}: {$invoice->receiver->dic}</td></tr>
             </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="border" rowspan="3">
-            <table style="width: 100%">
-                <tr>
-                    <td><strong>{_'nattreid.printInvoice.receiver'}:</strong></td>
-                    <td n:if="$invoice->receiver->ico">{_'nattreid.printInvoice.ico'}:
-                        <strong>{$invoice->receiver->ico}</strong></td>
-                    <td n:if="$invoice->receiver->dic">{_'nattreid.printInvoice.dic'}:
-                        <strong>{$invoice->receiver->dic}</strong></td>
-                </tr>
-                <tr>
-                    <td class="space"></td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="subscriber">
-                        {$invoice->receiver->name}<br/>
-                        {$invoice->receiver->street}<br/>
-                        {$invoice->receiver->zip} {$invoice->receiver->city}<br/>
-                        {$invoice->receiver->country}
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="border" style="height:50px;">{$invoice->supplier->text}</td>
-    </tr>
-    <tr>
-        <td class="border" rowspan="2">
+        </div>
+        {*if $invoice->subscriber->hasCompany}
+            <div class="full-block">
+                Fyzická osoba zapsána v živnostenském rejstříku
+            </div>
+        {/if*}
+    </div>
+
+    <div class="block">
+        <div class="half-block">
             <table>
                 <tr>
-                    <td colspan="2"><strong>{_'nattreid.printInvoice.bankConnection'}</strong></td>
+                    <td>{_'nattreid.printInvoice.formOfPayment'}: </td>
+                    <td>{_'nattreid.printInvoice.' . $invoice->payment}</td>
+                </tr>
+                {*if $invoice->payment->isAccountTransfer*}
+                    <tr>
+                        <td>{_'nattreid.printInvoice.bankConnection'}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>{_'nattreid.printInvoice.accountNumber'}: </td>
+                        <td>{$invoice->supplier->bankAccount}</td>
+                    </tr>
+                    <tr>
+                        <td>{_'nattreid.printInvoice.variable'}: </td>
+                        <td>{$invoice->variable}</td>
+                    </tr>
+                    <tr n:if="$invoice->constant">
+                        <td>{_'nattreid.printInvoice.constant'}: </td>
+                        <td>{$invoice->constant}</td>
+                    </tr>
+                    <tr n:if="$invoice->supplier->iban">
+                        <td>IBAN:</td>
+                        <td><strong>{$invoice->supplier->iban}</strong></td>
+                    </tr>
+                    <tr n:if="$invoice->supplier->swift">
+                        <td>SWIFT / BIC:</td>
+                        <td><strong>{$invoice->supplier->swift}</strong></td>
+                    </tr>
+                {*/if*}
+            </table>
+        </div>
+        <div class="half-block">
+            <table>
+                <tr>
+                    <td>{_'nattreid.printInvoice.dateIssue'}: </td>
+                    <td>{$invoice->dateIssue|date:'j. n. Y'}</td>
                 </tr>
                 <tr>
-                    <td>{_'nattreid.printInvoice.bankConnection'}:</td>
-                    <td><strong>{_'nattreid.printInvoice.bank'}</strong></td>
+                    <td>{_'nattreid.printInvoice.dueDate'}: </td>
+                    <td>{$invoice->dueDate|date:'j. n. Y'}</td>
                 </tr>
                 <tr>
-                    <td>{_'nattreid.printInvoice.accountNumber'}:</td>
-                    <td><strong>{$invoice->supplier->bankAccount}</strong></td>
-                </tr>
-                <tr n:if="$invoice->supplier->iban">
-                    <td>IBAN:</td>
-                    <td><strong>{$invoice->supplier->iban}</strong></td>
-                </tr>
-                <tr n:if="$invoice->supplier->swift">
-                    <td>SWIFT / BIC:</td>
-                    <td><strong>{$invoice->supplier->swift}</strong></td>
+                    <td>{_'nattreid.printInvoice.taxDate'}: </td>
+                    <td>{$invoice->taxDate|date:'j. n. Y'}</td>
                 </tr>
             </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="border">
-            <table style="width: 316px;">
-                <tr>
-                    <td><strong>{_'nattreid.printInvoice.dueDate'}:</strong></td>
-                    <td class="right"><strong>{$invoice->dueDate|date:'j. n. Y'}</strong></td>
-                </tr>
-                <tr>
-                    <td>{_'nattreid.printInvoice.formOfPayment'}:</td>
-                    <td class="right">{_'nattreid.printInvoice.' . $invoice->payment}</td>
-                </tr>
-                <tr>
-                    <td>{_'nattreid.printInvoice.dateIssue'}:</td>
-                    <td class="right">{$invoice->dateIssue|date:'j. n. Y'}</td>
-                </tr>
-                <tr>
-                    <td>{_'nattreid.printInvoice.taxDate'}:</td>
-                    <td class="right">{$invoice->taxDate|date:'j. n. Y'}</td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="border whiteSpace" colspan="2">
-            <table class="text" n:if="$invoice->text">
-                <tr>
-                    <td>
-                        {$invoice->text}
-                    </td>
-                </tr>
-            </table>
-            <table class="items">
+        </div>
+        <div class="full-block">
+            {$invoice->text}
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="full-block">
+            <table style="border: 1px solid black; border-collapse: collapse; margin: -5.5mm;">
                 <thead>
                 <tr>
-                    <th class="name">{_'nattreid.printInvoice.item'}</th>
-                    <th class="right price">{_'nattreid.printInvoice.price'}</th>
-                    <th class="right amount">{_'nattreid.printInvoice.amount'}</th>
-                    <th n:if="$invoice->vat"
-                            class="right priceWithoutVat">{_'nattreid.printInvoice.priceWithoutVat'}</th>
-                    <th n:if="$invoice->vat" class="right vat">{_'nattreid.printInvoice.vat'}</th>
-                    <th class="right priceTotal">{_'nattreid.printInvoice.priceTotal'}</th>
+                    <th style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 2mm;">{_'nattreid.printInvoice.item'}</th>
+                    <th style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 2mm;">{_'nattreid.printInvoice.price'}</th>
+                    <th style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 2mm;">{_'nattreid.printInvoice.amount'}</th>
+                    <th n:if="$invoice->vat" style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 2mm;">{_'nattreid.printInvoice.priceWithoutVat'}</th>
+                    <th n:if="$invoice->vat" style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 2mm;">{_'nattreid.printInvoice.vat'}</th>
+                    <th style="border-top: 1px solid black;border-bottom: 1px solid black; padding: 2mm;">{_'nattreid.printInvoice.priceTotal'}</th>
                 </tr>
                 </thead>
-                <tbody>
                 {foreach $invoice->items as $item}
                     <tr>
-                        <td class="name">{$item->name}</td>
-                        <td class="right price">{$item->price|currency}</td>
-                        <td class="right amount">{$item->amount}</td>
-                        <td n:if="$invoice->vat" class="right priceWithoutVat">{$item->priceWithoutVat|currency}</td>
-                        <td n:if="$invoice->vat" class="right vat">{$item->vat}%</td>
+                        <td style="padding: 2mm;">{$item->name}</td>
+                        <td style="padding: 2mm;">{$item->price|currency}</td>
+                        <td style="padding: 2mm;">{$item->amount}</td>
+                        <td n:if="$invoice->vat" style="padding: 2mm;">{$item->priceWithoutVat|currency}</td>
+                        <td n:if="$invoice->vat" style="padding: 2mm;">{$item->vat}%</td>
                         <td class="right priceTotal">{$item->totalPrice|currency}</td>
                     </tr>
                 {/foreach}
-                </tbody>
             </table>
-        </td>
-    </tr>
-    <tr>
-        <td>Celkem bez DPH (Kč):</td>
-        <td style="text-align:right">0</td>
-    </tr>
-    <tr>
-        <td>DPH (Kč):</td>
-        <td style="text-align:right">100}</td>
-    </tr>
-    <tr>
-        <td style="font-size:12pt;"><strong>Cena celkem s DPH (Kč):</strong></td>
-        <td style="font-size:12pt;text-align:right;"><strong>{$invoice->price|currency}</strong></td>
-    </tr>
-    <tr>
-        <td class="border" colspan="2">
-            <span n:if="$invoice->accountant">{$invoice->accountant}</span>
-            <span n:if="$invoice->supplier->phone">{_'nattreid.printInvoice.phone'}: {$invoice->supplier->phone}</span>
-            <span n:if="$invoice->supplier->email">{_'nattreid.printInvoice.email'}: {$invoice->supplier->email}</span>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+
+    <div class="block last">
+        <div class="half-block"></div>
+        <div class="half-block">
+            <div class="border price-block">Celkem k úhradě: {$invoice->price|currency}</div>
+        </div>
+        {*}<div class="full-block">
+            <table>
+                <tr>
+                    <td>Celkem bez DPH (Kč):</td>
+                    <td style="text-align:right">0</td>
+                </tr>
+                <tr>
+                    <td>DPH (Kč):</td>
+                    <td style="text-align:right">100}</td>
+                </tr>
+                <tr>
+                    <td style="font-size:12pt;"><strong>Cena celkem s DPH (Kč):</strong></td>
+                    <td style="font-size:12pt;text-align:right;"><strong>{$invoice->price|currency}</strong></td>
+                </tr>
+                <tr>
+                    <td class="border" colspan="2">
+                        <span n:if="$invoice->accountant">{$invoice->accountant}</span>
+                        <span n:if="$invoice->supplier->phone">{_'nattreid.printInvoice.phone'}: {$invoice->supplier->phone}</span>
+                        <span n:if="$invoice->supplier->email">{_'nattreid.printInvoice.email'}: {$invoice->supplier->email}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>*}
+
+        {*<div class="half-block">
+            <br>
+            if isset($invoice->employee->phone) && $invoice->employee->phone != null }<br>{/if}
+
+            <h4>Vyřizuje: </h4>
+            <table>
+                <tr><td>{$invoice->employee->name}</td></tr>
+                {if isset($invoice->employee->phone) && $invoice->employee->phone != null }
+                    <tr><td>Tel.: {$invoice->employee->phone}</td></tr>
+                {/if}
+                <tr><td>E-mail: <a href="mailto:{$invoice->employee->email}">{$invoice->employee->email}</a></td></tr>
+            </table>
+        </div>
+        <div class="half-block">
+            <div class="signature">
+                <span>Razítko a podpis</span>
+            </div>
+        </div>*}
+    </div>
+</div>
 </body>
 </html>
