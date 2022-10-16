@@ -13,6 +13,7 @@ use NAttreid\Invoices\Entities\Receiver;
 use NAttreid\Invoices\Entities\Supplier;
 use NAttreid\Invoices\PrintInvoice;
 use Nette\Application\UI\Presenter;
+use Nette\Localization\ITranslator;
 use Nette\Utils\ArrayHash;
 
 final class HomepagePresenter extends Presenter
@@ -23,6 +24,12 @@ final class HomepagePresenter extends Presenter
 	 * @inject
 	 */
 	public $printInvoice;
+
+	/**
+	 * @var ITranslator
+	 * @inject
+	 */
+	public $translator;
 
 	public function actionPdfTest(): void
 	{
@@ -54,8 +61,8 @@ final class HomepagePresenter extends Presenter
 		$invoice->variable = 2022090501;
 		$invoice->constant = 123;
 		$datetime = new DateTime();
-		$invoice->dueDate = $datetime;
-		$invoice->dateIssue = $datetime->modify('+14 days');
+		$invoice->dateIssue = clone  $datetime;
+		$invoice->dueDate = $datetime->modify('+14 days');
 		$invoice->taxDate = $datetime;
 		$invoice->vat = true;
 		$invoice->text = 'testovací faktura';
@@ -369,9 +376,11 @@ final class HomepagePresenter extends Presenter
 
 		// pro zmenu jazyka
 		$printer->setLang($this->getParameter('locale'));
+		$printer->setTranslator($this->translator);
 
 		$printer->setInvoice($invoice);
 		$printer->setTemplateFile(__DIR__ . "/templates/invoice.latte");
+
 		$response = $printer->getResponse();
 		$response->setSaveMode(PdfResponse::INLINE);
 

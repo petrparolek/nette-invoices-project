@@ -3,90 +3,91 @@
 <head>
     <meta charset="utf-8">
     <title></title>
+
+    <style>
+        body {
+            font-size: 9pt;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .container .block {
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            float: left;
+            width: 100%;
+            padding-top: 20px;
+        }
+
+        .container .last {
+            border-bottom: 1px solid black;
+            padding-bottom: 10px;
+        }
+
+        .container .block .half-block {
+            width: 43%;
+            float: left;
+            padding: 20px;
+            padding-top: 0;
+        }
+
+        .container .block .full-block {
+            width: 95%;
+            padding: 20px;
+            padding-top: 0;
+            position: relative;
+        }
+
+        h4 {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding-right: 18px;
+        }
+
+        .border {
+            border: 1px solid black;
+            padding: 4px;
+        }
+
+        .price-block {
+            float: right;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .signature {
+            border-top: 1px solid black;
+            text-align: center;
+            width: 70%;
+            margin: 150px auto 0 auto;
+        }
+
+        .invoice-number {
+            text-align: center;
+            font-size: 1.2em;
+            border: 1px solid black;
+            border-bottom: none;
+            padding: 10px;
+            width: 30%;
+            float: right;
+        }
+    </style>
 </head>
 <body>
-<style>
-    body {
-        font-size: 9pt;
-    }
-    .container {
-        width: 100%;
-        height: 100%;
-    }
-
-    .container .block {
-        border-top: 1px solid black;
-        border-left: 1px solid black;
-        border-right: 1px solid black;
-        float: left;
-        width: 100%;
-        padding-top: 20px;
-    }
-
-    .container .last {
-        border-bottom: 1px solid black;
-        padding-bottom: 10px;
-    }
-
-    .container .block .half-block {
-        width: 43%;
-        float: left;
-        padding: 20px;
-        padding-top: 0;
-    }
-
-    .container .block .full-block {
-        width: 95%;
-        padding: 20px;
-        padding-top: 0;
-        position: relative;
-    }
-
-    h4 {
-        margin: 0;
-        padding: 0;
-    }
-
-    table {
-        margin: 0;
-        padding: 0;
-        text-align: left;
-        width: 100%;
-    }
-
-    th, td {
-        text-align: left;
-        padding-right: 18px;
-    }
-
-    .border {
-        border: 1px solid black;
-        padding: 4px;
-    }
-
-    .price-block {
-        float: right;
-        width: 100%;
-        font-weight: bold;
-    }
-
-    .signature {
-        border-top: 1px solid black;
-        text-align: center;
-        width: 70%;
-        margin: 150px auto 0 auto;
-    }
-
-    .invoice-number {
-        text-align: center;
-        font-size: 1.2em;
-        border: 1px solid black;
-        border-bottom: none;
-        padding: 10px;
-        width: 30%;
-        float: right;
-    }
-</style>
 
 <div class="container">
     <div class="invoice-number">
@@ -163,15 +164,15 @@
             <table>
                 <tr>
                     <td>{_'nattreid.printInvoice.dateIssue'}: </td>
-                    <td>{$invoice->dateIssue|date:'j. n. Y'}</td>
+                    <td>{$invoice->dateIssue|localeDate}</td>
                 </tr>
                 <tr>
                     <td>{_'nattreid.printInvoice.dueDate'}: </td>
-                    <td>{$invoice->dueDate|date:'j. n. Y'}</td>
+                    <td>{$invoice->dueDate|localeDate|noescape}</td>
                 </tr>
                 <tr>
                     <td>{_'nattreid.printInvoice.taxDate'}: </td>
-                    <td>{$invoice->taxDate|date:'j. n. Y'}</td>
+                    <td>{$invoice->taxDate|localeDate|noescape}</td>
                 </tr>
             </table>
         </div>
