@@ -11,6 +11,11 @@ services:
     ports:
       - '80:80'
 
+  browserless:
+    image: browserless/chrome:latest
+    ports:
+      - 3000:3000
+
   console:
     image: ghcr.io/webnazakazku/docker-php-build:7.3
     entrypoint: /tmp/entrypoint.sh

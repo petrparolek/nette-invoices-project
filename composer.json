@@ -27,7 +27,10 @@
 		"latte/latte": "^2.9",
 		"tracy/tracy": "^2.8",
 		"nattreid/invoices": "dev-master",
-		"contributte/translation": "^0.9.3"
+		"contributte/translation": "^0.9.3",
+		"ext-curl": "*",
+		"ext-json": "*",
+		"contributte/application": "^0.5.1"
 	},
 	"require-dev": {
 		"nette/tester": "^2.3"
