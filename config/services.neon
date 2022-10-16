@@ -1,0 +1,4 @@
+services:
+    - NAttreid\Invoices\PrintInvoice
+
+    - App\Router\RouterFactory::createRouter
