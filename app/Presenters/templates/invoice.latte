@@ -24,6 +24,7 @@
 
         .container .last {
             border-bottom: 1px solid black;
+            height: 2900mm;
             padding-bottom: 10px;
         }
 
@@ -164,7 +165,7 @@
             <table>
                 <tr>
                     <td>{_'nattreid.printInvoice.dateIssue'}: </td>
-                    <td>{$invoice->dateIssue|localeDate}</td>
+                    <td>{$invoice->dateIssue|localeDate|noescape}</td>
                 </tr>
                 <tr>
                     <td>{_'nattreid.printInvoice.dueDate'}: </td>
