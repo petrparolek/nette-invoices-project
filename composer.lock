@@ -325,11 +325,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webnazakazku/invoices",
-                "reference": "3e7da380a2e4e5e47704264a62c2ed2e9b21f4b9"
+                "reference": "eda95e24ab0c1f1e3d33330969b52f89f7c1476e"
             },
             "require": {
                 "contributte/pdf": "^6.0",
                 "nette/application": "^3.0",
+                "nette/finder": "^2.5",
+                "nette/neon": "^3.3",
                 "nette/utils": "^3.0",
                 "php": ">= 7.2"
             },
@@ -364,7 +366,7 @@
                 }
             ],
             "description": "Invoices for Nette Framework",
-            "time": "2022-10-15T22:01:13+00:00"
+            "time": "2022-10-16T10:40:37+00:00"
         },
         {
             "name": "nette/application",

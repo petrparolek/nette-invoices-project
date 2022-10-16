@@ -1,20 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
+use Contributte\PdfResponse\PdfResponse;
 use DateTime;
-use Joseki\Application\Responses\PdfResponse;
 use NAttreid\Invoices\Entities\Currency\CZK;
 use NAttreid\Invoices\Entities\Invoice;
 use NAttreid\Invoices\Entities\Item;
 use NAttreid\Invoices\Entities\Receiver;
 use NAttreid\Invoices\Entities\Supplier;
-use NAttreid\Invoices\Lang\Translator;
-use Nette;
+use NAttreid\Invoices\PrintInvoice;
+use Nette\Application\UI\Presenter;
 use Nette\Utils\ArrayHash;
 
-final class HomepagePresenter extends Nette\Application\UI\Presenter
+final class HomepagePresenter extends Presenter
 {
+
+	/**
+	 * @var PrintInvoice
+	 * @inject
+	 */
+	public $printInvoice;
 
 	public function actionPdfTest(): void
 	{
@@ -357,25 +365,17 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 			$invoice->addItem($item);
 		}
 
-		$template = $this->createTemplate();
-		$template->setFile(__DIR__ . "/templates/invoice.latte");
-		$translator = new Translator();
-		$translator->setLang('cs');
-		$template->setTranslator($translator);
+		$printer = $this->printInvoice;
 
-		$template->invoice = $invoice;
+		// pro zmenu jazyka
+		$printer->setLang($this->getParameter('locale'));
 
-		$template->addFilter('currency', function (float $number) use ($invoice) {
-			return $invoice->currency->format($number);
-		});
+		$printer->setInvoice($invoice);
+		$printer->setTemplateFile(__DIR__ . "/templates/invoice.latte");
+		$response = $printer->getResponse();
+		$response->setSaveMode(PdfResponse::INLINE);
 
-		$pdf = new PdfResponse($template);
-		$pdf->pageOrientation = PDFResponse::ORIENTATION_PORTRAIT;
-		$pdf->pageFormat = 'A4';
-		$pdf->getMPDF()->SetFooter('{PAGENO} / {nb}'); // footer
-
-		$pdf->setSaveMode(PdfResponse::INLINE);
-		$this->sendResponse($pdf);
+		$this->sendResponse($response);
 	}
 
 }
